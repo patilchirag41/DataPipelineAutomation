@@ -1,0 +1,57 @@
+package Java_tests;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+public class Stage1Tests {
+
+	@Test
+    public CSVParser readCSVData(String csvFilePath) throws IOException {
+        // Define the path to your CSV file
+      //  String csvFilePath = "C:\\Users\\chiragsinghp\\DataPipelineAutomation\\Stage1\\src\\test\\resources\\test_data\\dummyData.csv"; // Update with your CSV file path
+
+        // Create a FileReader and CSVParser to read the CSV file
+        try (Reader reader = new FileReader(csvFilePath);
+             CSVParser csvParser = CSVFormat.DEFAULT.parse(reader)) {
+        	return csvParser;
+            // Iterate through CSV records and access data
+//            for (CSVRecord csvRecord : csvParser) {
+//                String column1 = csvRecord.get(0); // Assuming the first column
+//                String column2 = csvRecord.get(1); // Assuming the second column
+//
+//                // Process and use the data as needed
+//                System.out.println("Column 1: " + column1);
+//                System.out.println("Column 2: " + column2);
+//
+//                // Add additional processing or assertions here
+//            }
+        }
+    }
+ 
+ public void verifyNullFieldsInCSV() {
+	 try {
+	 CSVParser csvParser = readCSVData("C:\\Users\\chiragsinghp\\DataPipelineAutomation\\Stage1\\src\\test\\resources\\test_data\\dummyData.csv");
+
+	 for (CSVRecord record : csvParser) {
+		System.out.println(record);
+         for (String header : csvParser.getHeaderMap().keySet()) {
+             String value = record.get(header);
+             if (value == null || value.trim().isEmpty()) {
+            	 
+                 Assert.fail("Null or empty value found in column '" + header + "' on line " + record.getRecordNumber());
+             }
+         }
+	 
+	 
+	 }}catch(Exception e) {
+		 e.printStackTrace();
+	 }
+ 
+ }}  
+
